@@ -2,7 +2,7 @@ kubectl create namespace argocd
 
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-[root@centos8 ~]# cat argoservice.yaml
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Service
 metadata:
@@ -19,7 +19,7 @@ spec:
   selector:
     app.kubernetes.io/name: argocd-server
   type: NodePort
-
+EOF
 
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d > admin-pass.txt
 
